@@ -24,9 +24,11 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function show(){
+    public function show($id){
 
-        return view('posts.show');
+        $post=$this->posts[$id];
+
+        return view('posts.show',['post'=>$post]);
 
     }
 
