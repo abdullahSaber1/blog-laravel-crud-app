@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\HelloController;
 
 use \App\Http\Controllers\PostController;
+
+use \App\Http\Controllers\CommentController;
+
 
 
 /*
@@ -38,6 +40,25 @@ Route::get('/posts/{post}/edit',[PostController::class,'edit'])->name('posts.edi
 
 Route::get('/posts/{post}',[PostController::class,'show'])->name('posts.show');
 
+// =================    Comments============
+
+Route::get('/comments',[CommentController::class,'index'])->name('comments.index');
+
+Route::get('/comments/create',[CommentController::class,'create'])->name('comments.create');
+
+Route::post('/comments/{post_id}',[CommentController::class,'store'])->name('comments.store');
+
+Route::get('/comments/{comment}',[CommentController::class,'show'])->name('comments.show');
+
+Route::put('/comments/{comment}',[CommentController::class],'update')->name('comments.update');
+
+Route::put('/comments/{comment}/edit',[CommentController::class],'edit')->name('comments.edit');
+
+Route::delete('/comments/{comment}',[CommentController::class,'destroy'])->name('comments.destroy');
+
+
+
+
 
 
 //============================== to Connect all Data ==================
@@ -52,5 +73,3 @@ Route::get('/posts/{post}',[PostController::class,'show'])->name('posts.show');
 //Error in This command
 
 //Route::get('/hello2','HelloController@helloAction');
-
-Route::get('/hello', [HelloController::class,'helloAction']);

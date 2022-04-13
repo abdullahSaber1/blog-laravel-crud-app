@@ -14,6 +14,8 @@
     <div class="container">
 
     @yield('posts')
+
+    @yield('comments')
     
     </div>
 

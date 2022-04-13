@@ -9,15 +9,23 @@
 
 
             <div class="mb-3">
-                <label for="exampleInputPosted" class="form-label">Posted By</label>
-                <input name="postedby" type="text" class="form-control" id="exampleInputPosted">
+                <label for="exampleInputPosted" class="form-label">Description</label>
+                <textarea name="description" type="text" class="form-control" id="exampleInputPosted">
+                </textarea>
               </div>
 
-              <div class="mb-3">
-                <label for="exampleInputDate" class="form-label">Created At</label>
-                <input name="createdat" type="date" class="form-control"  id="exampleInputDate">
+             <div class="mb-3">
+                <label for="exampleInputDate" class="form-label">Posted By </label>
+                <select name="posted_by" class="form-select" aria-label="Default select example">
+                  <option selected disabled>select From Users</option>
+
+                  @foreach($users as $user)
+                  <option value="{{$user->id}}">{{$user->name}}</option>
+                  @endforeach
+                </select>
               </div>
+           
             
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Create Post</button>
           </form>
  

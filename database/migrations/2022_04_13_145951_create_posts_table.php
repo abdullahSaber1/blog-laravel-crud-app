@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('createAt');
+            $table->bigIncrements('id');
+            $table->text('title');
+            $table->text('description');
             $table->timestamps();
         });
     }

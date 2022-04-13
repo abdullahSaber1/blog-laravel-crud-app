@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class HelloController extends Controller
 {
-   public function helloAction(): string
+   public function helloAction()
    {
         return view('hello'
             ,['name'=>'abdallah', "age"=>25,'clubs'=>[
