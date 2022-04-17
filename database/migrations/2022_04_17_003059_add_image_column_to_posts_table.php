@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_posts', function (Blueprint $table) {
-            $table->id();
-            $table->text('name');
-            $table->text('email');
-            $table->timestamps();
+        Schema::table('posts', function (Blueprint $table) {
+            $table->text('image')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_posts');
+        Schema::table('posts', function (Blueprint $table) {
+            //
+        });
     }
 };

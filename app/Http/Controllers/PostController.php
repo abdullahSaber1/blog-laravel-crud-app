@@ -2,37 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostrequest;
+use App\Jobs\DeletePostJob;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\UserPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+    // to check Login First
+
+    public function __construct()
+    {
+
+        $this->middleware('auth');
+    }
 
 
-    // private $posts=[
-    // ['id'=> 1, 'title'=> 'MVC Pattern', "posted_by" => "Ahmed", "created_at" => "2021-05-03"],
-    // ['id'=> 2, 'title'=> 'Artisan Conmands', "posted_by" => "Abdallah", "created_at" => "2022-06-03"],
-    // ['id'=> 3, 'title'=> 'Schedule Jobs', "posted_by" => "Bondoka", "created_at" => "2000-11-03"],
-    // ['id'=> 4, 'title'=> 'Architecture', "posted_by" => "Ibrahim", "created_at" => "2022-02-03"],
-    //     ];
 
     public function index(){
-        //  $posts = Post::all();
 
-        $posts = Post::paginate(15);
-
-
-
+        $posts = Post::paginate(10);
 
         return view('posts.index',['posts'=>$posts]);
     }
 
     public function create(){
-        $users=User::all();
 
+        $users=User::all();
 
         return view('posts.create',['users'=>$users]);
     }
@@ -41,33 +42,40 @@ class PostController extends Controller
 
         $post = Post::find($id);
 
-        $comments= $post->comments();
-
-        // dd($comments);
-
         return view('posts.show',['post'=>$post]);
 
     }
 
-    public function store(){
+    public function store(StorePostrequest $request){
 
+        if($request->image){
+
+        $imageName = time().'.'.$request->image->extension();  
+
+        $request->image->move(public_path('images'), $imageName);
+
+        }
 
         $post=[
-            "title" => request()["title"],
-            "user_id" => request()['user_id'],
-            "description" => request()['description'],
+            "title"       => $request->title,
+            "description" => $request->description,
+            "user_id"     => $request->user_id,
+            'image'       => $imageName,
         ];
+        // dd($post);
 
         Post::create($post);
 
-         return to_route('posts.index');
-
+         return to_route('posts.index')->with([
+             'message'=>"Post created successfully",
+             'alert-type'=>'success'
+         ]);
 
     }
 
-    public function edit($id){
+    public function edit($postId){
 
-        $post=Post::find($id);
+        $post=Post::find($postId);
 
 
         return view('posts.edit',['post' =>$post]);
@@ -75,28 +83,52 @@ class PostController extends Controller
 
 
 
-    public function update($id,Request $request){
+    public function update($postId,StorePostrequest $request){
 
-        $post=Post::find($id);
+        $post=Post::find($postId);
 
-        $post->title=$request->all()['title'];
+        if($request->image){
 
-        $post->description=$request->all()['description'];
+            Storage::delete('public/images/'.$post->image);
+            $imageName = time().'.'.$request->image->extension();  
+            $request->image->move(public_path('images'), $imageName);
+
+        }else{
+            $imageName = $post->image;
+        }
+
+        $post->title=$request->title;
+
+        $post->image=$imageName;
+
+        $post->description=$request->description;
+        
 
         $post->save();
 
 
         return to_route('posts.index');
 
+
     }
 
 
     public function destroy ($id){
+        $post=Post::where('id',$id);
 
-        $post=Post::where('id',$id)->delete();
+        if($post->image){
+            Storage::delete('public/images/'.$post->image);
+        }
 
+        $post->delete();
 
         return to_route('posts.index');
+
+    }
+
+    public function removeOldPost(){
+        DeletePostJob::dispatch();
+        echo "Posts are deleted successfully";
 
     }
 

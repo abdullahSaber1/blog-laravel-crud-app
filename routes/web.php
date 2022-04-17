@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
 
 use \App\Http\Controllers\CommentController;
-
-
+use App\Http\Livewire\CreatePosts;
+use App\Http\Livewire\Posts;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,13 +33,13 @@ Route::get('/posts/create',[PostController::class,'create'])->name('posts.create
 
 Route::post('/posts',[PostController::class,'store'])->name('posts.store');
 
-Route::put('/posts/{post}',[PostController::class,'update'])->name('posts.update');
+Route::put('/posts/{postId}',[PostController::class,'update'])->name('posts.update');
 
-Route::delete('/posts/{post}',[PostController::class,'destroy'])->name('posts.destroy');
+Route::delete('/posts/{postId}',[PostController::class,'destroy'])->name('posts.destroy');
 
-Route::get('/posts/{post}/edit',[PostController::class,'edit'])->name('posts.edit');
+Route::get('/posts/{postId}/edit',[PostController::class,'edit'])->name('posts.edit');
 
-Route::get('/posts/{post}',[PostController::class,'show'])->name('posts.show');
+Route::get('/posts/{postId}',[PostController::class,'show'])->name('posts.show');
 
 // =================    Comments============
 
@@ -48,17 +49,23 @@ Route::get('/comments/create',[CommentController::class,'create'])->name('commen
 
 Route::post('/comments/{post_id}',[CommentController::class,'store'])->name('comments.store');
 
-Route::get('/comments/{comment}',[CommentController::class,'show'])->name('comments.show');
-
-Route::put('/comments/{comment}',[CommentController::class],'update')->name('comments.update');
-
-Route::put('/comments/{comment}/edit',[CommentController::class],'edit')->name('comments.edit');
+Route::put('/comments/{comment}',[CommentController::class,'update'])->name('comments.update');
 
 Route::delete('/comments/{comment}',[CommentController::class,'destroy'])->name('comments.destroy');
 
+Route::get('/comments/{comment}/edit',[CommentController::class,'edit'])->name('comments.edit');
+
+Route::get('/comments/{comment}',[CommentController::class,'show'])->name('comments.show');
 
 
+Auth::routes();
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// ===================== Livewire Routes ============================
+
+Route::get('/livewire/posts',Posts::class);
 
 
 //============================== to Connect all Data ==================
