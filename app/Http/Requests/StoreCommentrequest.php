@@ -24,7 +24,7 @@ class StoreCommentrequest extends FormRequest
     public function rules()
     {
         return [
-            'body' => 'reqiured'
+            'body' => 'required',
         ];
     }
 }

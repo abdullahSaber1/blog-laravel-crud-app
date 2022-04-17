@@ -18,16 +18,16 @@
   </div>
 
   @if($post->image)
-  <div class="my-4 w-80">
-    <img src="{{ asset('public/images/'.$post->image) }}" alt={{$post->title."image"}} />
+  <div class="my-4 img-fluid w-sm-20 rounded mx-auto d-block">
+    <img src="{{ asset('images/'.$post->image) }}" alt={{$post->title."image"}} />
   </div>
   @endif
 
   <div class="mb-3">
     <label for="exampleInputPosted" class="form-label">Description</label>
     <textarea readonly name="description" type="text" rows="5" class="form-control" id="exampleInputPosted">
-          {{$post['description']}}
-        </textarea>
+            {{$post['description']}}
+          </textarea>
   </div>
 </form>
 
@@ -44,7 +44,11 @@
             <div class="form-group">
               <label for="exampleFormControlTextarea1">Comment</label>
               <textarea name="body" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
               <label class="form-label" for="addANote">+ Add a note</label>
+
+              @error('body')<div class="text-danger">{{$message}}</div>@enderror
+
 
             </div>
             <button type="submit" class="btn btn-primary">Comment</button>

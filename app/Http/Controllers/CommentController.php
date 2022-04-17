@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCommentrequest;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ class CommentController extends Controller
 {
         
 
-    public function store($post_id,Request $request){
+    public function store($post_id,StoreCommentrequest $request){
 
         $post=Post::find($post_id);
 
@@ -24,7 +25,7 @@ class CommentController extends Controller
 
         Comment::create($comment);
 
-        return to_route('posts.show',['post'=>$post]);
+        return to_route('posts.show',['postId'=>$post->id]);
     }
 
 
@@ -36,7 +37,7 @@ class CommentController extends Controller
     }
 
 
-    public function update($comment,Request $request){
+    public function update($comment,StoreCommentrequest $request){
 
         $comment=Comment::find($comment);
 
@@ -44,7 +45,7 @@ class CommentController extends Controller
 
         $comment->save();
 
-        return to_route('posts.show',['post'=>$comment->commentable]);
+        return to_route('posts.show',['postId'=>$comment->commentable]);
     }
 
 
@@ -54,7 +55,7 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return to_route('posts.show',['post'=>$comment->commentable]);
+        return to_route('posts.show',['postId'=>$comment->commentable]);
     }
 
 

@@ -85,7 +85,10 @@ class PostController extends Controller
 
     public function update($postId,StorePostrequest $request){
 
+
+
         $post=Post::find($postId);
+
 
         if($request->image){
 

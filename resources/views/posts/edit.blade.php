@@ -18,7 +18,7 @@
   </div>
   <div class="mb-3">
     <label for="exampleInputPosted" class="form-label">Posted By</label>
-    <input readonly name="posted_by" value="{{$post->user->name}}" type="text" class="form-control"
+    <input readonly name="user_id" value="{{$post->user->name}}" type="text" class="form-control"
       id="exampleInputPosted">
   </div>
 
@@ -37,9 +37,9 @@
   </div>
 
 
-  {{-- @if($post->image != '')
+  @if($post->image != '')
   <div class="form-group">
-    <img src="{{asset('assets/images/'. $post->image)}}" alt="{{ $post->title }}" width="188">
+    <img src="{{asset('images/'. $post->image)}}" alt="{{ $post->title }}" width="188">
   </div>
   @endif
 
@@ -48,7 +48,7 @@
     <input type="file" name="image" class="custom-file">
     @error (image )<span class="text-danger">{{ $message }}</span>@enderror
 
-  </div> --}}
+  </div>
 
   <div class="text-center">
 
