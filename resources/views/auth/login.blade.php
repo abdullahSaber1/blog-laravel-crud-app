@@ -71,7 +71,7 @@
 
                                 <a href="{{route('loginWithGoogle')}}"
                                     class='btn btn-danger btn-social btn-twitter mt-3'>
-                                    <i class="fa-brands fa-google mx-2"></i> Sign in with
+                                    <i class="fa-brands fa-google-plus-g mx-2"></i> Sign in with
                                     Google
                                 </a>
 

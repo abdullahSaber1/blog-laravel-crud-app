@@ -21,49 +21,35 @@ class GithubController extends Controller
     {
 
         $githubUser=Socialite::driver("github")->stateless()->user();
-        ;
-
-
-        $user = User::updateOrCreate([
-            'github_id' => $githubUser->id,
-        ], [
-            'name' => $githubUser->name,
-            'email' => $githubUser->email,
-            'password' => Hash::make($githubUser->token),
-        ]);
     
-        Auth::login($user);
-    
-        return redirect('home');
-        
 
-        // $existingUser = User::where('email', $user->email)->first();
+        $existingUser = User::where('email', $githubUser->email)->first();
 
-        // if($existingUser){
+        if($existingUser){
 
-        //     Auth::login($existingUser);
+            Auth::login($existingUser);
 
-        //     return to_route('home');
+            return to_route('home');
 
-        // }else{
+        }else{
 
-        //     $newUser = User::create([
+            $newUser = User::create([
 
-        //         'name' => $user->name,
+                'name' => $githubUser->name,
 
-        //         'email' => $user->email,
+                'email' => $githubUser->email,
 
-        //         'github_id' => $user->id,
+                'github_id' => $githubUser->id,
 
-        //         'password' => Hash::make($user->id),
+                'password' => Hash::make($githubUser->id),
 
-        //     ]);
+            ]);
 
-        //     Auth::login($newUser);
+            Auth::login($newUser);
 
-        //     return to_route('home');
+            return to_route('home');
 
-        // }
+        }
 
     }
 }
