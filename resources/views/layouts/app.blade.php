@@ -30,6 +30,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="bootstrap-social.css">
+
     <style>
         svg {
             width: 50px;

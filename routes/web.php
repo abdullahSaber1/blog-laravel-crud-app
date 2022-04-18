@@ -4,11 +4,15 @@ use Illuminate\Support\Facades\Route;
 
 
 use \App\Http\Controllers\PostController;
-
-use \App\Http\Controllers\CommentController;
-use App\Http\Livewire\CreatePosts;
-use App\Http\Livewire\Posts;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\CommentController;
+use App\Http\Controllers\GithubController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Livewire\Posts;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +30,18 @@ Route::get('/', function () {
 });
 
 
+// ========================GITHUB==========================
+    Route::get('/github/auth/redirect',[GithubController::class,'redirectToGithub'])->name('loginWithGithub');
+
+    Route::get('/github/auth/callback',[GithubController::class,'handleGithubCallback']);
+
+// ==========================Google=========================
+
+Route::get('/auth/google/redirect',[GoogleController::class,'redirectToGoogle'])->name('loginWithGoogle');
+
+Route::get('/google/auth/callback',[GoogleController::class,'handleGoogleCallback']);
+
+// =========================== POSTS ===========================
 
 Route::get('/posts',[PostController::class,'index'])->name('posts.index');
 
